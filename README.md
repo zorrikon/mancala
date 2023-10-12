@@ -8,7 +8,7 @@ Features:
 * All game logic is implemented in the backend and useful messages are displayed when, for example, stones are captured or someone gets an extra turn
 
 Feature TODOs:
-* While hovering over a pit, highlight the pit that you'd end in after playing from here
+* While hovering over a pit, highlight the pit that you'd end in after playing from there
 * Animate moves to clarify what's happening
 * Make the board prettier, perhaps with images of real stones
 * Make it clearer which direction play is in and whose goal is whose
