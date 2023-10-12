@@ -27,11 +27,12 @@ public class EndpointController {
 	public static String fillInModel(HttpServletRequest request, Map<String, Object> model) {
 		HttpSession session = request.getSession();
 		GameState gameState = getGameState(session);
-
+		
 		if (gameState.isGameOver()) {
-			model.put(MESSAGE, gameState.getGameResultMessage());
 			session.invalidate();
+			model.put(MESSAGE, gameState.getGameResultMessage());
 		}
+	
 		model.put(PITS, gameState.getBoard().getPits());
 		model.put(ACTIVE_PLAYER, gameState.getActivePlayer().getName());
 		return "app";

@@ -48,35 +48,9 @@ public class GameState {
 			return invalidReason.get();
 		}
 		
-		int numStones = board.getNumStones(pitLocation);
-		board.clearLocation(pitLocation);
-		while (numStones > 0) {
-			pitLocation = MancalaBoard.getNextPitLocation(pitLocation, activePlayer);
-			board.addStone(pitLocation);
-			numStones--;
-		}
+		final int finalPitLocation = doBasicMove(pitLocation); 
 		
-		String message = "";
-		
-		if (board.getNumStones(pitLocation) == 1 && activePlayer.canPlayInPitLocation(pitLocation)) {
-			final int oppositeLocation = MancalaBoard.getOppositeLocation(pitLocation);
-			board.moveStonesFromLocationToPlayerGoal(pitLocation, activePlayer);
-			board.moveStonesFromLocationToPlayerGoal(oppositeLocation, activePlayer);
-			message = CAPTURED_OPPONENTS_STONE_MESSAGE;
-		}
-		
-		if (activePlayer.getGoalLocation() == pitLocation) {
-			message = TAKE_ANOTHER_TURN_MESSAGE;
-		} else {
-			activePlayer = activePlayer.otherPlayer();
-		}
-		
-		if (isGameOver()) {
-			scoreEachPlayersStones();
-			message = getGameResultMessage();
-		}
-		
-		return message;
+		return doMoveCleanup(finalPitLocation);
 	}
 	
 	// Returns a message for why the move is invalid or an empty optional if the move is valid
@@ -93,6 +67,43 @@ public class GameState {
 		return Optional.empty();
 	}
 
+	// Does the basics for the move and returns the final pit location.
+	private int doBasicMove(int pitLocation) {
+		int numStones = board.getNumStones(pitLocation);
+		board.clearLocation(pitLocation);
+		while (numStones > 0) {
+			pitLocation = MancalaBoard.getNextPitLocation(pitLocation, activePlayer);
+			board.addStone(pitLocation);
+			numStones--;
+		}
+		return pitLocation;
+	}
+	
+	// Does the housekeeping after doBasicMove and returns a message to the user.
+	private String doMoveCleanup(int finalPitLocation) {
+		String message = "";
+		
+		if (board.getNumStones(finalPitLocation) == 1 && activePlayer.canPlayInPitLocation(finalPitLocation)) {
+			final int oppositeLocation = MancalaBoard.getOppositeLocation(finalPitLocation);
+			board.moveStonesFromLocationToPlayerGoal(finalPitLocation, activePlayer);
+			board.moveStonesFromLocationToPlayerGoal(oppositeLocation, activePlayer);
+			message = CAPTURED_OPPONENTS_STONE_MESSAGE;
+		}
+		
+		if (activePlayer.getGoalLocation() == finalPitLocation) {
+			message = TAKE_ANOTHER_TURN_MESSAGE;
+		} else {
+			activePlayer = activePlayer.otherPlayer();
+		}
+		
+		if (isGameOver()) {
+			scoreEachPlayersStones();
+			message = getGameResultMessage();
+		}
+		
+		return message;
+	}
+	
 	public boolean isGameOver() {
 		return Stream.of(Player.values()).anyMatch(
 				player -> player.getPitLocations().stream().allMatch(pit -> board.isEmptyPit(pit)));

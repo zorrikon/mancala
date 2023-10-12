@@ -17,7 +17,8 @@ class MoveScore {
     static MoveScore initialFor(Player player) {
     	return new MoveScore(NULL_MOVE, negativeInfinityScoreFor(player));
     }
-    
+
+	// Bottom wants to maximize the score, Top wants to minimize it.
     private static int negativeInfinityScoreFor(Player player) {
     	return player == Player.BOTTOM ? Integer.MIN_VALUE : Integer.MAX_VALUE;
     }
@@ -32,14 +33,7 @@ class MoveScore {
 		return bottomScore - topScore;
 	}
     
-    static MoveScore bestForPlayer(MoveScore a, MoveScore b, Player player) {
-    	if (player == Player.BOTTOM) {
-    		return a.score > b.score ? a : b;
-    	}
-    	return a.score > b.score ? b : a;
-    }
-    
-    boolean isOtherBetterForPlayer(MoveScore other, Player player) {
+    boolean otherIsBetterForPlayer(MoveScore other, Player player) {
     	return player == Player.BOTTOM ? other.score > this.score : other.score < this.score;
     }
 

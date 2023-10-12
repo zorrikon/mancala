@@ -36,7 +36,7 @@ public enum Player {
 		return this.goalLocation;
 	}
 
-	// TODO move?
+	// TODO move to MancalaBoard?
 	public static boolean isGoalPit(int pitLocation) {
 		return pitLocation == BOTTOM.getGoalLocation() || pitLocation == TOP.getGoalLocation();
 	}

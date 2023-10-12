@@ -26,7 +26,7 @@ public class MancalaBot {
 			GameState gsCopy = gameState.deepCopy();
 			gsCopy.doMove(pitLocation);
 			MoveScore moveScore = bestMoveAndScore(gsCopy, depth - 1);
-			if (best.isOtherBetterForPlayer(moveScore, gameState.getActivePlayer())) {
+			if (best.otherIsBetterForPlayer(moveScore, gameState.getActivePlayer())) {
 				best = new MoveScore(pitLocation, moveScore.score);
 			}
 		}

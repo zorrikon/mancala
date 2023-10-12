@@ -19,8 +19,11 @@
         <table>
 
           <%-- Top player's pits --%>
+
+          <%-- Disable the links if these aren't the active player's pits (actual disabling done in CSS) --%>
           <tr class="${activePlayer=='Top' ? 'enabled' : 'disabled'}">
             <td>
+              <%-- Clicking on a pit makes a move --%>
               <%-- class="stones#" helps disable empty pits in the css --%>
               <a class="stones${pits[12]}" href="${pageContext.request.contextPath}/move/12">
                 <div class="pit">${pits[12]}</div>
