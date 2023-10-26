@@ -1,5 +1,8 @@
 package com.bol.mancala;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 // Maintains the pits and how many stones are in each.
 public class MancalaBoard {
 	private final int[] pits;
@@ -8,18 +11,57 @@ public class MancalaBoard {
 	static final int NUM_LOCATIONS = (NUM_PITS_PER_PLAYER + 1) * 2;
 	static final int INITIAL_STONES_PER_PIT = 6;
 	
+	public enum Player {
+		BOTTOM("Bottom", 0, NUM_PITS_PER_PLAYER),
+		TOP("Top", NUM_PITS_PER_PLAYER + 1, NUM_PITS_PER_PLAYER * 2 + 1);
+
+		private final String name;
+		private final int firstPit;
+		private final int goalLocation;
+		
+		private Player(String name, int firstPit, int goalLocation) {
+			this.name = name;
+			this.firstPit = firstPit;
+			this.goalLocation = goalLocation;
+		}
+		
+		public Player otherPlayer() {
+			return this == TOP ? BOTTOM : TOP;
+		}
+		
+		public boolean canPlayInPitLocation(int pitLocation) {
+			return this.firstPit <= pitLocation && pitLocation < this.goalLocation; 
+		}
+		
+		public List<Integer> getPitLocations() {
+			return IntStream.range(this.firstPit, this.goalLocation).boxed().toList();
+		}
+		
+		public String getName() {
+			return this.name;
+		}
+		
+		public int getGoalLocation() {
+			return this.goalLocation;
+		}
+
+		public static boolean isGoalPit(int pitLocation) {
+			return pitLocation == BOTTOM.getGoalLocation() || pitLocation == TOP.getGoalLocation();
+		}
+	}
+	
 	public static MancalaBoard initialBoard() {
-		return new MancalaBoard(new int[]{
-		    INITIAL_STONES_PER_PIT, INITIAL_STONES_PER_PIT, INITIAL_STONES_PER_PIT,
-			INITIAL_STONES_PER_PIT, INITIAL_STONES_PER_PIT, INITIAL_STONES_PER_PIT, 
-			0, 
-		    INITIAL_STONES_PER_PIT, INITIAL_STONES_PER_PIT, INITIAL_STONES_PER_PIT,
-			INITIAL_STONES_PER_PIT, INITIAL_STONES_PER_PIT, INITIAL_STONES_PER_PIT, 
-			0});
+		int[] pits = new int[NUM_LOCATIONS];
+		for (Player player : Player.values()) {
+			player.getPitLocations().forEach(pit -> pits[pit] = INITIAL_STONES_PER_PIT);
+		}
+		
+		return new MancalaBoard(pits);
 	}
 	
 	// Used for testing, for normal situations create a board using initialBoard()
 	public MancalaBoard(int[] pits) {
+		assert pits.length == NUM_LOCATIONS;
 		this.pits = pits;
 	}
 	

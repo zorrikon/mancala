@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import com.bol.mancala.MancalaBoard.Player;
+
 public class GameStateTest {
 
 	public static void assertGameStateEquals(GameState a, GameState b) {

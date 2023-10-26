@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.bol.mancala.GameState;
 import com.bol.mancala.GameStateTest;
 import com.bol.mancala.MancalaBoard;
-import com.bol.mancala.Player;
+import com.bol.mancala.MancalaBoard.Player;
 
 class MancalaBotTest {
 

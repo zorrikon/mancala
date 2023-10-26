@@ -3,6 +3,8 @@ package com.bol.mancala;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import com.bol.mancala.MancalaBoard.Player;
+
 // Maintains the game state (the Mancala board and whose turn it is). 
 public class GameState {
 	

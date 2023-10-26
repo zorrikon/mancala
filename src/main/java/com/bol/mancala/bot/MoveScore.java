@@ -1,7 +1,7 @@
 package com.bol.mancala.bot;
 
 import com.bol.mancala.GameState;
-import com.bol.mancala.Player;
+import com.bol.mancala.MancalaBoard.Player;
 
 class MoveScore {
     final int move;

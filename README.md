@@ -3,7 +3,7 @@ A Mancala game implemented via a Java webserver and Java Server Pages.
 Run using `mvn spring-boot:run` in the command line, then navigate to `http://localhost:8082/` in a browser.
 
 Features:
-* A move suggester which lets also lets you play vs. the computer
+* A move suggester which also lets you play vs. the computer
 * The frontend clearly indicates whose turn it is and disables invalid moves
 * All game logic is implemented in the backend and useful messages are displayed when, for example, stones are captured or someone gets an extra turn
 
